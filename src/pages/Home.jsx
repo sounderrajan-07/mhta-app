@@ -10,7 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 
-import homeImage from "../assets/home.png";
+import homeImage from "../assets/Home.png";
 
 import fein from "../assets/Companies/1.png";
 import tractlift from "../assets/Companies/2.png";
@@ -23,9 +23,9 @@ import al from "../assets/Companies/8.png";
 import bl from "../assets/Companies/9.png";
 import cl from "../assets/Companies/10.png";
 
-import chainBlock from "../assets/products/Chain Blocks And Hoists.webp";
-import sling from "../assets/products/Webbing Slings.webp";
-import rigging from "../assets/products/Grade 100 Riggings.webp";
+import chainBlock from "../assets/Products/Chain Blocks And Hoists.webp";
+import sling from "../assets/Products/Webbing Slings.webp";
+import rigging from "../assets/Products/Grade 100 Riggings.webp";
 
 export default function Home() {
   const containerVariants = {
