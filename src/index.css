@@ -1,86 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ── Theme colour tokens ─────────────────────────────────────────────── */
-
-/* Dark theme (default — html.dark or :root when .dark is present) */
-:root {
-  --color-bg:        #110C0C;
-  --color-surface:   #1A1414;
-  --color-border:    #332424;
-  --color-text:      #F5EBEB;
-  --color-textMuted: #B39E9E;
-  /* Pre-mixed glass colours (dark theme) */
-  --glass-bg:        rgba(17, 12, 12, 0.8);
-  --glass-surface:   rgba(26, 20, 20, 0.7);
-  --glass-border:    rgba(51, 36, 36, 0.5);
-  --glass-border-hvy:rgba(51, 36, 36, 0.8);
-}
-
-/* Light theme — applied when html does NOT have the .dark class */
-html:not(.dark) {
-  --color-bg:        #FFF8F8;
-  --color-surface:   #FFFFFF;
-  --color-border:    #E8D0D0;
-  --color-text:      #1A0A0A;
-  --color-textMuted: #6B3A3A;
-  /* Pre-mixed glass colours (light theme) */
-  --glass-bg:        rgba(255, 248, 248, 0.85);
-  --glass-surface:   rgba(255, 255, 255, 0.75);
-  --glass-border:    rgba(232, 208, 208, 0.5);
-  --glass-border-hvy:rgba(232, 208, 208, 0.8);
-}
-
-/* ── Base styles ─────────────────────────────────────────────────────── */
-
 @layer base {
-  html {
-    /* smooth colour transition on theme switch */
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
   body {
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    @apply font-sans antialiased selection:bg-brand-primary selection:text-white overflow-x-hidden;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    @apply bg-steel-bg text-on-surface font-body-md overflow-x-hidden;
   }
 }
-
-/* ── Utility classes ─────────────────────────────────────────────────── */
 
 @layer utilities {
-  .glass {
-    background-color: var(--glass-surface);
-    border: 1px solid var(--glass-border);
-    @apply backdrop-blur-xl shadow-lg;
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   }
-  .glass-dark {
-    background-color: var(--glass-bg);
-    border: 1px solid var(--glass-border-hvy);
-    @apply backdrop-blur-2xl shadow-2xl;
+  .hero-overlay {
+    background: linear-gradient(90deg, rgba(4, 13, 35, 0.9) 0%, rgba(4, 13, 35, 0.4) 100%);
   }
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-primary to-brand-highlight;
+  .technical-border {
+    border-left: 4px solid #b52619;
   }
-
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 10px;
+  .hover-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
   }
-  ::-webkit-scrollbar-track {
-    background-color: var(--color-bg);
+  .product-card-shadow {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
   }
-  ::-webkit-scrollbar-thumb {
-    background-color: var(--color-border);
-    border-radius: 9999px;
-    transition: background-color 0.2s;
+  .sidebar-scroll::-webkit-scrollbar {
+    width: 4px;
   }
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: #800000;
+  .sidebar-scroll::-webkit-scrollbar-thumb {
+    background-color: #D1D5DB;
+    border-radius: 10px;
   }
 }

@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Download, PackageOpen, Search, Filter } from 'lucide-react';
 
 export default function Products() {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeBrand, setActiveBrand] = useState('All');
 
+  // Load original images and pdfs
   const productImages = import.meta.glob('../assets/Products/*.webp', { eager: true, query: '?url', import: 'default' });
   const productPdfs = import.meta.glob('../assets/Products pdf/*.pdf', { eager: true, query: '?url', import: 'default' });
 
@@ -55,164 +54,94 @@ export default function Products() {
   });
 
   return (
-    <div className="flex flex-col min-h-screen bg-brand-bg relative overflow-hidden">
-      
-      {/* Background Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-primary/20 blur-[150px] pointer-events-none z-0"></div>
-
-      {/* Header */}
-      <section className="pt-32 pb-16 relative z-10">
-        <div className="container mx-auto px-6 lg:px-12 text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-surface/80 border border-brand-border/50 text-brand-textMuted text-sm font-semibold mb-6 shadow-glow-primary"
-          >
-            <PackageOpen className="w-4 h-4 text-brand-highlight" /> Premium Industrial Catalog
-          </motion.div>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-5xl lg:text-7xl font-extrabold text-brand-text mb-6 tracking-tight"
-          >
-            Discover Our <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-highlight drop-shadow-lg">
-              Products
-            </span>
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-lg md:text-xl text-brand-textMuted max-w-2xl mx-auto font-medium"
-          >
-            Explore our comprehensive catalog of lifting, rigging, and material handling solutions from world-renowned manufacturers.
-          </motion.p>
-        </div>
-      </section>
-
-      {/* Catalog Section */}
-      <section className="py-8 flex-grow relative z-10">
-        <div className="container mx-auto px-6 lg:px-12">
-          
-          {/* Filters Area */}
-          <div className="glass-dark p-6 rounded-[2rem] mb-12 shadow-2xl sticky top-24 z-30">
-            <div className="flex flex-col lg:flex-row gap-6 justify-between items-center">
+    <>
+      <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col md:flex-row gap-gutter">
+        
+        {/* Sidebar Filter */}
+        <aside className="w-full md:w-64 flex-shrink-0">
+          <div className="sticky top-24 space-y-stack-lg bg-surface-container-lowest p-stack-md border border-outline-variant rounded-xl sidebar-scroll z-10">
+            <div>
+              <h3 className="font-headline-md text-headline-md text-primary mb-stack-md border-b border-outline-variant pb-2">Filter Products</h3>
               
               {/* Search */}
-              <div className="relative w-full lg:w-1/3 group">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-brand-textMuted w-5 h-5 group-focus-within:text-brand-highlight transition-colors" />
-                <input 
-                  type="text" 
-                  placeholder="Search products or brands..." 
-                  className="w-full bg-brand-surface border border-brand-border/50 shadow-inner rounded-2xl pl-12 pr-4 py-4 text-brand-text placeholder-brand-textMuted focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/50 transition-all"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-              
-              {/* Brand Pills */}
-              <div className="flex-1 flex flex-wrap gap-2 justify-center lg:justify-end items-center">
-                <div className="hidden lg:flex items-center gap-2 mr-2 text-brand-textMuted font-bold">
-                  <Filter className="w-4 h-4" /> Filter:
+              <div className="mb-stack-lg">
+                <label className="font-label-md text-label-md text-outline uppercase tracking-wider mb-stack-sm block">Search</label>
+                <div className="relative">
+                   <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+                   <input 
+                     type="text" 
+                     placeholder="Search products..." 
+                     className="w-full pl-9 pr-3 py-2 border border-outline-variant rounded bg-white focus:outline-none focus:border-primary text-sm"
+                     value={searchTerm}
+                     onChange={(e) => setSearchTerm(e.target.value)}
+                   />
                 </div>
-                {brands.map(brand => (
-                  <button
-                    key={brand}
-                    onClick={() => setActiveBrand(brand)}
-                    className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 transform hover:scale-105 ${
-                      activeBrand === brand 
-                        ? 'bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-glow-primary border-transparent' 
-                        : 'bg-brand-surface text-brand-textMuted hover:bg-brand-primary/10 hover:text-brand-text border border-brand-border/50 shadow-md'
-                    }`}
-                  >
-                    {brand}
-                  </button>
-                ))}
+              </div>
+
+              {/* Brand Filter */}
+              <div className="mb-stack-lg">
+                <label className="font-label-md text-label-md text-outline uppercase tracking-wider mb-stack-sm block">Brand</label>
+                <div className="space-y-2 flex flex-col items-start">
+                  {brands.map(brand => (
+                    <button
+                      key={brand}
+                      onClick={() => setActiveBrand(brand)}
+                      className={`text-sm px-3 py-1.5 rounded w-full text-left transition-all ${activeBrand === brand ? 'bg-primary text-white font-bold' : 'bg-surface hover:bg-surface-container text-on-surface-variant'}`}
+                    >
+                      {brand}
+                    </button>
+                  ))}
+                </div>
               </div>
 
             </div>
           </div>
+        </aside>
 
-          {/* Product Grid */}
-          <motion.div 
-            layout
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-          >
-            <AnimatePresence>
+        {/* Product Grid */}
+        <section className="flex-grow min-w-0">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-stack-lg gap-4">
+            <div>
+              <h1 className="font-display-lg text-4xl sm:text-5xl text-primary">Heavy Lifting Solutions</h1>
+              <p className="text-on-surface-variant font-body-lg">Authorized partners for YOKE & INDEF engineering equipment.</p>
+            </div>
+            <div className="text-label-md text-outline whitespace-nowrap">
+              <span>Showing {filteredProducts.length} products</span>
+            </div>
+          </div>
+
+          {filteredProducts.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
               {filteredProducts.map((product, index) => (
-                <motion.div
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3 }}
-                  key={product.name}
-                  className="group relative glass-dark p-2 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500 hover:shadow-glow-primary border border-brand-border/30 hover:border-brand-primary/50 flex flex-col h-full"
-                >
-                  {/* Subtle hover gradient background */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/0 to-brand-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                  {/* Product Image Box */}
-                  <div className="h-56 w-full rounded-2xl bg-white/5 overflow-hidden relative border border-white/5">
-                    <img 
-                      src={product.image} 
-                      alt={product.name} 
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" 
-                    />
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
-                    <span className="absolute top-4 right-4 text-[10px] font-black px-3 py-1.5 bg-brand-surface/90 backdrop-blur-md text-brand-text rounded-full uppercase tracking-widest shadow-lg border border-white/10">
-                      {product.brand}
-                    </span>
+                <div key={index} className="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden group hover:border-primary transition-all duration-300 shadow-sm hover:shadow-md flex flex-col">
+                  <div className="aspect-square bg-surface flex items-center justify-center p-stack-md relative overflow-hidden">
+                    <img alt={product.name} className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-500 mix-blend-multiply" src={product.image} />
+                    <div className="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full font-label-md text-[10px] uppercase tracking-widest font-bold z-10 shadow-sm">{product.brand}</div>
                   </div>
-                  
-                  {/* Content Box */}
-                  <div className="p-6 flex flex-col flex-grow relative z-10">
-                    <h3 className="text-xl font-bold text-brand-text mb-6 group-hover:text-brand-highlight transition-colors line-clamp-2">
-                      {product.name}
-                    </h3>
+                  <div className="p-stack-md flex-grow border-t border-outline-variant flex flex-col">
+                    <h3 className="font-headline-md text-lg text-primary leading-tight mb-4 line-clamp-2">{product.name}</h3>
                     
-                    <div className="mt-auto pt-4 border-t border-brand-border/50">
+                    <div className="grid grid-cols-2 gap-2 mt-auto pt-4">
                       {product.link ? (
-                        <a 
-                          href={product.link} 
-                          target="_blank" 
-                          rel="noreferrer"
-                          className="w-full py-3.5 px-4 bg-brand-surface/50 rounded-xl text-center text-brand-text font-bold hover:bg-brand-primary hover:shadow-glow-primary transition-all duration-300 flex items-center justify-center gap-2 group/btn border border-white/5"
-                        >
-                          <Download className="w-5 h-5 group-hover/btn:-translate-y-1 transition-transform" />
-                          Specs
-                        </a>
+                        <a href={product.link} target="_blank" rel="noreferrer" className="py-2 border border-secondary text-secondary font-bold text-[11px] uppercase tracking-wider rounded hover:bg-secondary hover:text-white transition-all text-center flex items-center justify-center">Specs</a>
                       ) : (
-                        <div className="w-full py-3.5 px-4 bg-brand-surface/20 rounded-xl text-center text-brand-textMuted/50 font-bold flex items-center justify-center gap-2 cursor-not-allowed border border-white/5">
-                          <span>Unavailable</span>
-                        </div>
+                        <div className="py-2 border border-outline-variant text-outline-variant font-bold text-[11px] uppercase tracking-wider rounded text-center cursor-not-allowed bg-surface flex items-center justify-center">N/A</div>
                       )}
+                      <a href="/contact" className="py-2 bg-primary text-white font-bold text-[11px] uppercase tracking-wider rounded hover:bg-primary-container transition-all text-center flex items-center justify-center">Inquiry</a>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               ))}
-            </AnimatePresence>
-          </motion.div>
-
-          {filteredProducts.length === 0 && (
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              className="text-center py-32 text-brand-textMuted"
-            >
-              <div className="w-24 h-24 rounded-full bg-brand-surface mx-auto mb-6 flex items-center justify-center border border-brand-border/50">
-                <PackageOpen className="w-12 h-12 text-brand-primary opacity-50" />
-              </div>
-              <p className="text-2xl font-bold text-brand-text mb-2">No products found</p>
-              <p className="text-brand-textMuted">Try adjusting your search or filters.</p>
-            </motion.div>
+            </div>
+          ) : (
+            <div className="py-20 text-center flex flex-col items-center justify-center bg-surface rounded-xl border border-outline-variant border-dashed">
+              <span className="material-symbols-outlined text-5xl text-outline mb-4">search_off</span>
+              <h3 className="text-xl font-bold text-primary mb-2">No products found</h3>
+              <p className="text-on-surface-variant">Try adjusting your search or filters.</p>
+            </div>
           )}
-
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </>
   );
 }

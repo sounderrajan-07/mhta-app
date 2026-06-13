@@ -1,17 +1,7 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import {
-  ArrowRight,
-  ShieldCheck,
-  Truck,
-  Wrench,
-  ChevronRight,
-  Star
-} from "lucide-react";
-import { Link } from "react-router-dom";
-import { useRef } from "react";
+import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import homeImage from "../assets/Home.png";
-
 import fein from "../assets/Companies/1.png";
 import tractlift from "../assets/Companies/2.png";
 import usha from "../assets/Companies/3.png";
@@ -28,343 +18,217 @@ import sling from "../assets/Products/Webbing Slings.webp";
 import rigging from "../assets/Products/Grade 100 Riggings.webp";
 
 export default function Home() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.21, 0.47, 0.32, 0.98],
-      },
-    },
-  };
-
   const brands = [
-    fein,
-    tractlift,
-    usha,
-    orion,
-    kohinoor,
-    bajaj,
-    yoke,
-    al,bl,cl
+    fein, tractlift, usha, orion, kohinoor, bajaj, yoke, al, bl, cl
   ];
 
-  const products = [
+  const featuredProducts = [
     {
-      name: "Chain Blocks",
+      name: "Chain Blocks And Hoists",
       brand: "INDEF",
       image: chainBlock,
+      description: "High-precision lifting mechanisms designed for extreme durability in heavy fabrication environments."
     },
     {
       name: "Webbing Slings",
       brand: "FERRETERRO",
       image: sling,
+      description: "Industrial-grade polyester slings for delicate loads, offering high strength-to-weight ratio."
     },
     {
-      name: "Grade 100 Rigging",
+      name: "Grade 100 Riggings",
       brand: "YOKE",
       image: rigging,
+      description: "Superior strength rigging components featuring YOKE's patented safety designs."
     },
   ];
 
-  const { scrollYProgress } = useScroll();
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('opacity-100');
+          entry.target.classList.remove('opacity-0', 'translate-y-10');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.hover-card').forEach(card => {
+      card.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-700');
+      observer.observe(card);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="flex flex-col bg-brand-bg relative overflow-hidden">
-      
-      {/* Animated Background Blobs */}
-      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] bg-brand-primary/10 rounded-full blur-[120px] mix-blend-screen animate-blob"></div>
-        <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-brand-highlight/5 rounded-full blur-[100px] mix-blend-screen animate-blob animation-delay-2000"></div>
-        <div className="absolute top-[40%] left-[20%] w-[400px] h-[400px] bg-brand-secondary/10 rounded-full blur-[80px] mix-blend-screen animate-blob animation-delay-4000"></div>
-        
-        {/* Modern Dot Pattern */}
-        <div 
-          className="absolute inset-0 opacity-[0.05]"
-          style={{
-            backgroundImage: "radial-gradient(#ffffff 1px, transparent 1px)",
-            backgroundSize: "40px 40px",
-          }}
-        ></div>
-      </div>
-
-      {/* ================= HERO SECTION ================= */}
-      <section className="relative min-h-[100vh] flex items-center pt-24 pb-4 md:pb-12 overflow-hidden z-10">
-        <div className="container mx-auto px-6 lg:px-12 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-            
-            {/* LEFT CONTENT */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="order-1 z-20"
-            >
-              <motion.div
-                variants={itemVariants}
-                className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-brand-surface/50 border border-brand-border/50 text-brand-textMuted text-xs sm:text-sm font-semibold mb-8 backdrop-blur-md shadow-lg"
-              >
-                <div className="w-2 h-2 rounded-full bg-brand-highlight animate-pulse"></div>
-                <span>Established in 1972</span>
-                <span className="w-px h-4 bg-brand-border/50 mx-1"></span>
-                <span className="text-brand-text flex items-center gap-1">
-                  <Star className="w-3 h-3 text-brand-highlight fill-brand-highlight" /> Premium Quality
-                </span>
-              </motion.div>
-
-              <motion.div variants={itemVariants} className="relative">
-                <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold text-brand-text leading-[1.1] mb-6 tracking-tight">
-                  Elevating <br />
-                  <span className="relative inline-block">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-highlight via-brand-primary to-brand-secondary">
-                      Industries
-                    </span>
-                    <motion.div 
-                      className="absolute -bottom-2 left-0 w-full h-2 bg-brand-primary/40 blur-md"
-                      initial={{ scaleX: 0 }}
-                      animate={{ scaleX: 1 }}
-                      transition={{ delay: 1, duration: 1 }}
-                    />
-                  </span>
-                  <br />
-                  Safely.
-                </h1>
-              </motion.div>
-
-              <motion.p
-                variants={itemVariants}
-                className="text-lg md:text-xl text-brand-textMuted font-medium mb-10 max-w-2xl leading-relaxed"
-              >
-                Since 1972, we've provided uncompromising safety and quality in lifting & material handling equipment. Trusted by leaders across India.
-              </motion.p>
-
-              <motion.div
-                variants={itemVariants}
-                className="flex flex-col sm:flex-row gap-5"
-              >
-                <Link
-                  to="/products"
-                  className="group inline-flex justify-center items-center gap-3 px-8 py-4 bg-gradient-to-r from-brand-primary to-brand-secondary text-white font-bold text-lg rounded-2xl shadow-glow-primary hover:shadow-glow-highlight transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden"
-                >
-                  <div className="absolute inset-0 w-full h-full bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                  View Products
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-
-                <Link
-                  to="/about"
-                  className="inline-flex justify-center items-center gap-2 px-8 py-4 glass-dark text-brand-text font-bold text-lg rounded-2xl hover:bg-brand-surface/80 transition-all duration-300 transform hover:-translate-y-1"
-                >
-                  Our Legacy
-                </Link>
-              </motion.div>
-            </motion.div>
-
-            {/* RIGHT IMAGE */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] }}
-              className="flex justify-center order-2 relative z-10"
-              style={{ y: y1 }}
-            >
-              <div className="relative">
-                {/* Floating Effect for Image */}
-                <motion.div animate={{ y: [-10, 10, -10] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}>
-                  <div className="absolute inset-0 bg-brand-primary/20 blur-[80px] rounded-full"></div>
-                  <img
-                    src={homeImage}
-                    alt="Material Handling Equipment"
-                    className="w-full max-w-[650px] object-contain drop-shadow-2xl relative z-10"
-                  />
-                </motion.div>
-                
-                {/* Floating Badges */}
-                <motion.div 
-                  className="absolute top-[10%] -left-[10%] glass-dark p-4 rounded-2xl hidden md:flex items-center gap-3 border border-brand-primary/30"
-                  animate={{ y: [-5, 5, -5] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                >
-                  <div className="w-10 h-10 rounded-full bg-brand-primary/20 flex items-center justify-center text-brand-highlight">
-                    <ShieldCheck className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="text-brand-text font-bold text-sm">100% Certified</p>
-                    <p className="text-brand-textMuted text-xs">Quality Assured</p>
-                  </div>
-                </motion.div>
-
-              </div>
-            </motion.div>
-
-          </div>
-          
-          {/* Scroll Indicator */}
-          <motion.div 
-            style={{ opacity }}
-            className="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2"
-          >
-            <span className="text-brand-textMuted text-xs font-semibold tracking-widest uppercase">Scroll</span>
-            <motion.div 
-              className="w-[1px] h-12 bg-gradient-to-b from-brand-primary to-transparent"
-              animate={{ scaleY: [0, 1, 0], translateY: [0, 10, 20] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            />
-          </motion.div>
+    <>
+      {/* Hero Section */}
+      <section className="relative min-h-[85vh] flex items-center overflow-hidden pt-24 pb-48">
+        <div className="absolute inset-0 z-0">
+          <img alt="Industrial equipment background" className="w-full h-full object-cover opacity-30" src="https://lh3.googleusercontent.com/aida/AP1WRLuLWhL6eE6yrw3RPvYfzWrbzdtqalllLGJ5xirTjsGyMxtVg2FA-6a1qCzy4jWvEPrFCcB1yGxPACxKSpytwFM__XMIQcEtniu_40fVFAQW6G9fe-bf8gwIW4si-UJms5gRElHUmybmoNFNOESZ0bYFo2BIXEi2oUuFOa5mBvJ8W6NtMMHNoKn0G-y7yobjQeal75lfbp0Vq2Q05hZm0VWaSfiH-HUgwOrjKDeUCm9IwBoEw02dQhf5UQ" />
+          <div className="absolute inset-0 hero-overlay bg-primary/80 mix-blend-multiply"></div>
         </div>
-      </section>
+        
+        <div className="relative z-10 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="text-white space-y-stack-lg">
+            <div className="inline-block px-3 py-1 bg-secondary text-[12px] font-bold tracking-widest uppercase rounded">
+              Since 1972
+            </div>
+            <h1 className="font-display-lg text-4xl sm:text-5xl leading-tight md:text-6xl">
+              Elevating <span className="text-safety-blue">Industries</span> Safely.
+            </h1>
+            <p className="font-body-lg text-body-lg text-outline-variant max-w-lg">
+              Since 1972, we've provided uncompromising safety and quality in lifting & material handling equipment. Trusted by leaders across India.
+            </p>
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4 pt-4">
+              <Link to="/products" className="bg-white text-primary px-8 py-4 rounded-lg font-bold hover:bg-surface-container-high transition-all flex items-center justify-center gap-2">
+                View Catalog
+                <span className="material-symbols-outlined">arrow_forward</span>
+              </Link>
+              <Link to="/contact" className="border-2 border-white/30 backdrop-blur-md text-white px-8 py-4 rounded-lg font-bold hover:bg-white/10 transition-all flex items-center justify-center">
+                Technical Support
+              </Link>
+            </div>
+          </div>
 
-      {/* ================= BRANDS SECTION ================= */}
-      <section className="py-6 md:py-20 relative z-10">
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="glass-dark rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-brand-bg/80 via-transparent to-brand-bg/80 z-10 pointer-events-none"></div>
-            
-            <h2 className="text-center text-sm font-bold text-brand-textMuted uppercase tracking-widest mb-10">
-              Trusted by Industry Leaders
-            </h2>
+          <div className="flex justify-center relative">
+            <img 
+              src={homeImage} 
+              alt="Material Handling Equipment" 
+              className="w-full max-w-[500px] object-contain drop-shadow-2xl relative z-10 animate-[pulse_6s_ease-in-out_infinite]"
+            />
+            <div className="absolute inset-0 bg-safety-blue/20 blur-[80px] rounded-full pointer-events-none"></div>
+          </div>
+        </div>
 
-            <div className="overflow-hidden py-4 relative z-0 flex group">
-              <motion.div
-                className="flex gap-20 items-center pr-20"
-                animate={{ x: ["0%", "-50%"] }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 30,
-                  ease: "linear"
-                }}
-              >
-                {[...brands, ...brands].map((logo, index) => (
-                  <img
-                    key={index}
-                    src={logo}
-                    alt="Brand Logo"
-                    className="h-16 lg:h-24 object-contain flex-shrink-0 filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
-                  />
-                ))}
-              </motion.div>
+        {/* Stats Bar */}
+        <div className="absolute bottom-0 left-0 right-0 bg-primary/80 backdrop-blur-md border-t border-white/10 py-8 hidden md:block">
+          <div className="max-w-container-max mx-auto px-margin-desktop grid grid-cols-2 md:grid-cols-4 gap-gutter text-white">
+            <div className="space-y-1">
+              <div className="text-3xl font-black text-safety-yellow">50+</div>
+              <div className="text-sm uppercase tracking-wider text-outline-variant">Years of Experience</div>
+            </div>
+            <div className="space-y-1">
+              <div className="text-3xl font-black text-safety-yellow">10k+</div>
+              <div className="text-sm uppercase tracking-wider text-outline-variant">Safety Products</div>
+            </div>
+            <div className="space-y-1">
+              <div className="text-3xl font-black text-safety-yellow">100%</div>
+              <div className="text-sm uppercase tracking-wider text-outline-variant">Quality Assured</div>
+            </div>
+            <div className="space-y-1">
+              <div className="text-3xl font-black text-safety-yellow">24/7</div>
+              <div className="text-sm uppercase tracking-wider text-outline-variant">Expert Support</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= VALUE SECTION ================= */}
-      <section className="py-32 relative z-10">
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            
-            {/* LEFT */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 text-brand-highlight text-sm font-bold mb-6">
-                <Wrench className="w-4 h-4" /> Why Choose Us
+      {/* Brand Logos Marquee */}
+      <section className="py-12 bg-white overflow-hidden border-b border-outline-variant">
+        <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-8 text-center">
+           <h2 className="text-sm font-bold text-outline uppercase tracking-widest">
+             Trusted by Industry Leaders
+           </h2>
+        </div>
+        <div className="flex overflow-hidden relative group">
+          <div className="flex w-max animate-marquee">
+            {[...brands, ...brands].map((logo, index) => (
+              <div key={index} className="flex-shrink-0 px-8">
+                <img
+                  src={logo}
+                  alt="Brand Logo"
+                  className="h-24 lg:h-32 w-auto object-contain filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                />
               </div>
-              <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-brand-text mb-8 leading-tight">
-                Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-highlight">Excellence</span> <br/> in Every Lift.
-              </h2>
-
-              <p className="text-brand-textMuted text-lg leading-relaxed mb-10 border-l-4 border-brand-primary pl-6">
-                Madras Hard Tools Agencies (P) Ltd. provides industrial lifting and rigging supplies, carefully selecting products to ensure they meet the highest global standards.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="glass-dark p-8 rounded-3xl hover:-translate-y-2 transition-transform duration-300 group border-t border-brand-primary/20">
-                  <div className="w-14 h-14 rounded-2xl bg-brand-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-brand-primary/20 transition-all">
-                    <Wrench className="w-7 h-7 text-brand-highlight" />
-                  </div>
-                  <h3 className="text-xl text-brand-text font-bold mb-3">Premium Tools</h3>
-                  <p className="text-sm text-brand-textMuted leading-relaxed">
-                    Curated from top global manufacturers ensuring unmatched durability.
-                  </p>
-                </div>
-
-                <div className="glass-dark p-8 rounded-3xl hover:-translate-y-2 transition-transform duration-300 group border-t border-brand-primary/20">
-                  <div className="w-14 h-14 rounded-2xl bg-brand-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-brand-primary/20 transition-all">
-                    <Truck className="w-7 h-7 text-brand-highlight" />
-                  </div>
-                  <h3 className="text-xl text-brand-text font-bold mb-3">Fast Logistics</h3>
-                  <p className="text-sm text-brand-textMuted leading-relaxed">
-                    Deep regional network across South India for rapid, localized service.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* RIGHT PRODUCT CARDS */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-              className="relative"
-            >
-              <div className="absolute inset-0 bg-brand-highlight/5 blur-3xl rounded-full"></div>
-              
-              <div className="flex justify-between items-end mb-8 relative z-10">
-                <h3 className="text-3xl font-bold text-brand-text">Featured Products</h3>
-                <Link to="/products" className="text-brand-highlight font-semibold flex items-center gap-1 hover:text-brand-text transition-colors">
-                  View All <ChevronRight className="w-4 h-4" />
-                </Link>
-              </div>
-
-              <div className="space-y-4 relative z-10">
-                {products.map((product, index) => (
-                  <motion.div
-                    key={index}
-                    whileHover={{ scale: 1.02, x: 10 }}
-                    className="glass-dark rounded-3xl p-4 flex items-center gap-6 hover:shadow-glow-primary transition-all duration-300 border border-brand-border/30 cursor-pointer group"
-                  >
-                    <div className="relative overflow-hidden rounded-2xl w-28 h-28 bg-white/5">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                    </div>
-
-                    <div className="flex-1">
-                      <h4 className="font-bold text-xl text-brand-text mb-1 group-hover:text-brand-highlight transition-colors">
-                        {product.name}
-                      </h4>
-                      <span className="inline-block px-3 py-1 rounded-full bg-brand-primary/10 text-brand-textMuted text-xs font-bold tracking-wider uppercase border border-brand-primary/20">
-                        {product.brand}
-                      </span>
-                    </div>
-                    
-                    <div className="pr-4 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                      <div className="w-10 h-10 rounded-full bg-brand-primary/20 flex items-center justify-center text-brand-highlight">
-                        <ArrowRight className="w-5 h-5" />
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
+            ))}
           </div>
         </div>
       </section>
 
-    </div>
+      {/* Category Grid (Featured Products) */}
+      <section className="py-stack-lg bg-steel-bg">
+        <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div className="space-y-2">
+              <span className="text-secondary font-bold tracking-widest uppercase text-xs">Featured Products</span>
+              <h2 className="font-headline-lg text-headline-lg text-primary technical-border pl-6">Industrial Categories</h2>
+            </div>
+            <Link to="/products" className="text-secondary font-bold hover:underline flex items-center gap-1">
+               View All Products <span className="material-symbols-outlined text-sm">chevron_right</span>
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
+            {featuredProducts.map((product, index) => (
+              <Link key={index} to="/products" className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover-card transition-all duration-300 opacity-100 block">
+                <div className="aspect-[4/3] overflow-hidden bg-surface-container flex items-center justify-center p-4">
+                  <img alt={product.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 mix-blend-multiply" src={product.image} />
+                </div>
+                <div className="p-6 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-headline-md text-xl text-primary font-bold line-clamp-1">{product.name}</h3>
+                    <span className="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 transition-opacity">arrow_outward</span>
+                  </div>
+                  <div className="font-label-md text-[10px] text-on-surface-variant bg-surface-container px-2 py-1 rounded inline-block uppercase tracking-widest font-black">
+                    {product.brand}
+                  </div>
+                  <p className="text-sm text-outline line-clamp-2">{product.description}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Value Proposition Section */}
+      <section className="py-stack-lg bg-surface">
+        <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+          <div className="bg-primary text-white p-8 md:p-12 rounded-2xl relative overflow-hidden">
+            <div className="absolute right-0 top-0 w-1/3 h-full opacity-10 pointer-events-none hidden md:block">
+              <span className="material-symbols-outlined text-[300px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified_user</span>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+              <div className="space-y-6">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-safety-yellow text-sm font-bold">
+                  <span className="material-symbols-outlined text-[16px]">build</span> Why Choose Us
+                </div>
+                <h2 className="font-headline-lg text-3xl md:text-5xl leading-tight">Engineering Excellence in Every Lift.</h2>
+                <p className="text-outline-variant font-body-md border-l-4 border-secondary pl-4">
+                  Madras Hard Tools Agencies (P) Ltd. provides industrial lifting and rigging supplies, carefully selecting products to ensure they meet the highest global standards.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-6 pt-4">
+                  <div className="bg-white/5 p-6 rounded-xl border border-white/10 flex-1">
+                     <span className="material-symbols-outlined text-safety-yellow text-3xl mb-3">build</span>
+                     <h3 className="font-bold text-lg mb-2">Premium Tools</h3>
+                     <p className="text-sm text-outline-variant">Curated from top global manufacturers ensuring unmatched durability.</p>
+                  </div>
+                  <div className="bg-white/5 p-6 rounded-xl border border-white/10 flex-1">
+                     <span className="material-symbols-outlined text-safety-yellow text-3xl mb-3">local_shipping</span>
+                     <h3 className="font-bold text-lg mb-2">Fast Logistics</h3>
+                     <p className="text-sm text-outline-variant">Deep regional network across South India for rapid, localized service.</p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center justify-center">
+                 <div className="relative group/img overflow-hidden rounded-3xl p-2 bg-gradient-to-br from-secondary/20 to-white/5 border border-white/10 w-full max-w-md">
+                    <img 
+                      src={homeImage} 
+                      alt="Rigging Equipment" 
+                      className="w-full rounded-2xl shadow-2xl object-cover transform group-hover/img:scale-105 transition-transform duration-700" 
+                    />
+                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </>
   );
 }

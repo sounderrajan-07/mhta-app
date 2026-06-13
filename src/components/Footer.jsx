@@ -1,149 +1,58 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
 export default function Footer() {
-  const navigate = useNavigate();
-
-  const handleContactClick = () => {
-    navigate('/contact');
-  };
-
   return (
-    <footer className="relative bg-brand-bg pt-20 pb-8 overflow-hidden border-t border-brand-border/30 mt-auto">
-      
-      {/* Footer Glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-40 bg-brand-primary/20 blur-[120px] pointer-events-none z-0"></div>
-
-      <div className="container mx-auto px-6 lg:px-12 relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
-
-        {/* Brand */}
-        <div className="flex flex-col">
-          <Link to="/" className="flex items-center mb-8 group">
-            <img
-              src={logo}
-              alt="Madras Hard Tools"
-              className="h-12 w-auto filter drop-shadow-[0_0_8px_rgba(255,255,255,0.2)] group-hover:brightness-125 transition-all"
-            />
-          </Link>
-
-          <p className="text-brand-textMuted text-sm leading-relaxed mb-6">
-            Your trusted material handling equipment company. Providing
-            uncompromising quality and solutions in the Lifting & Material Handling product range since
-            1972.
+    <footer className="bg-primary dark:bg-surface-container-highest full-width bottom-0 border-t-4 border-secondary mt-auto">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-gutter max-w-container-max mx-auto px-margin-desktop py-stack-lg">
+        <div className="space-y-6">
+          <img src={logo} alt="Madras Hardtools Logo" className="h-12 w-auto object-contain bg-white rounded p-1" />
+          <p class="text-outline-variant text-sm leading-relaxed">
+              Authorized partner for premium lifting solutions. Providing high-performance hardware for construction, shipping, and heavy manufacturing sectors across India.
           </p>
+          <div className="flex gap-4">
+            <a className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all text-white" href="#"><span className="material-symbols-outlined">public</span></a>
+            <a className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all text-white" href="#"><span className="material-symbols-outlined">mail</span></a>
+            <a className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all text-white" href="#"><span className="material-symbols-outlined">call</span></a>
+          </div>
         </div>
-
-        {/* Quick Links */}
-        <div>
-          <h3 className="text-brand-text font-bold mb-6 text-lg tracking-wide flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-brand-primary"></span>
-            Quick Links
-          </h3>
-
-         <ul className="space-y-4">
-  {[
-    { name: 'Home', path: '/' },
-    { name: 'About Us', path: '/about' },
-    { name: 'Products', path: '/products' },
-    { name: 'Certificates', path: '/certificates' },
-    { name: 'Contact Us', path: '/contact' },
-  ].map((item) => (
-    <li key={item.name}>
-      <Link
-        to={item.path}
-        className="group flex items-center gap-2 text-brand-textMuted hover:text-brand-highlight transition-colors text-sm font-medium"
-      >
-        <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-        {item.name}
-      </Link>
-    </li>
-  ))}
-</ul>
-        </div>
-
-        {/* Contact Info */}
-        <div>
-          <h3 className="text-brand-text font-bold mb-6 text-lg tracking-wide flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-brand-highlight"></span>
-            Contact Info
-          </h3>
-
-          <ul className="space-y-5">
-            <li className="flex items-start gap-4 group">
-              <div className="p-2 bg-brand-surface rounded-lg border border-brand-border/50 group-hover:bg-brand-primary/20 transition-colors">
-                <MapPin className="w-4 h-4 text-brand-primary" />
-              </div>
-              <span className="text-brand-textMuted text-sm font-medium leading-relaxed">
-                No.199, Thambu Chetty Street, <br />
-                Parrys, Chennai - 600001.
-              </span>
-            </li>
-
-            <li className="flex items-center gap-4 group">
-              <div className="p-2 bg-brand-surface rounded-lg border border-brand-border/50 group-hover:bg-brand-primary/20 transition-colors">
-                <Phone className="w-4 h-4 text-brand-primary" />
-              </div>
-              <a href="tel:+919840757732" className="text-brand-textMuted text-sm font-medium hover:text-brand-primary transition-colors">
-                +91 98407 57732
-              </a>
-            </li>
-
-            <li className="flex items-center gap-4 group">
-              <div className="p-2 bg-brand-surface rounded-lg border border-brand-border/50 group-hover:bg-brand-primary/20 transition-colors">
-                <Mail className="w-4 h-4 text-brand-primary" />
-              </div>
-              <a href="mailto:info@mhta.co.in" className="text-brand-textMuted text-sm font-medium hover:text-brand-primary transition-colors">
-                info@mhta.co.in
-              </a>
-            </li>
+        <div className="space-y-6">
+          <h4 className="text-on-primary font-bold uppercase tracking-widest text-xs">Quick Links</h4>
+          <ul className="space-y-3">
+            <li><Link className="text-outline-variant hover:text-white transition-colors hover:underline text-sm" to="/products">Product Catalog</Link></li>
+            <li><Link className="text-outline-variant hover:text-white transition-colors hover:underline text-sm" to="/certificates">Technical Data</Link></li>
+            <li><Link className="text-outline-variant hover:text-white transition-colors hover:underline text-sm" to="/certificates">Safety Guides</Link></li>
+            <li><Link className="text-outline-variant hover:text-white transition-colors hover:underline text-sm" to="/contact">Contact Us</Link></li>
+            <li><Link className="text-outline-variant hover:text-white transition-colors hover:underline text-sm" to="/about">About Us</Link></li>
           </ul>
         </div>
-
-        {/* Quick Contact Form */}
-        <div>
-          <h3 className="text-brand-text font-bold mb-6 text-lg tracking-wide flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-brand-secondary"></span>
-            Send a Message
-          </h3>
-
-          <form
-            className="space-y-4 bg-brand-surface/30 p-6 rounded-2xl border border-brand-border/50 shadow-inner backdrop-blur-md"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <input
-              type="text"
-              placeholder="Your Name"
-              className="w-full bg-brand-bg border border-brand-border/50 rounded-xl px-4 py-3 text-sm text-brand-text placeholder-brand-textMuted/50 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all"
-            />
-
-            <input
-              type="email"
-              placeholder="Your Email"
-              className="w-full bg-brand-bg border border-brand-border/50 rounded-xl px-4 py-3 text-sm text-brand-text placeholder-brand-textMuted/50 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all"
-            />
-
-            <button
-              type="button"
-              onClick={handleContactClick}
-              className="w-full bg-brand-primary hover:bg-brand-highlight text-brand-text text-sm font-bold py-3 rounded-xl transition-all shadow-glow-primary hover:-translate-y-0.5"
-            >
-              Send Request
+        <div className="space-y-6">
+          <h4 className="text-on-primary font-bold uppercase tracking-widest text-xs">Partner Brands</h4>
+          <ul className="space-y-3">
+            <li className="text-outline-variant text-sm">YOKE Lifting Gear</li>
+            <li className="text-outline-variant text-sm">INDEF Hoists</li>
+            <li className="text-outline-variant text-sm">Bajaj Industrial</li>
+            <li><Link className="text-outline-variant hover:text-white transition-colors hover:underline text-sm" to="/contact">Contact Us</Link></li>
+          </ul>
+        </div>
+        <div className="space-y-6">
+          <h4 className="text-on-primary font-bold uppercase tracking-widest text-xs">Newsletter</h4>
+          <p className="text-outline-variant text-xs">Subscribe for safety updates and new product alerts.</p>
+          <div className="flex gap-0">
+            <input className="bg-white/10 border-0 text-white rounded-l px-4 py-2 w-full focus:ring-1 focus:ring-secondary outline-none" placeholder="Your email" type="email" />
+            <button className="bg-secondary text-white px-4 py-2 rounded-r hover:bg-opacity-80 transition-all flex items-center justify-center">
+              <span className="material-symbols-outlined">send</span>
             </button>
-          </form>
+          </div>
         </div>
       </div>
-
-      {/* Bottom Bar */}
-      <div className="container mx-auto px-6 lg:px-12 relative z-10">
-        <div className="border-t border-brand-border/30 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-brand-textMuted/50 text-sm font-medium">
-            © {new Date().getFullYear()} Madras HardTools Agencies (P) Ltd. All Rights Reserved.
-          </p>
-
-          <p className="text-brand-textMuted/50 text-sm font-medium flex items-center gap-1">
-            Engineered for <span className="text-brand-primary">Excellence</span>
-          </p>
+      <div className="border-t border-white/10 py-6">
+        <div className="max-w-container-max mx-auto px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-4 text-outline-variant text-xs font-label-md">
+          <span>© {new Date().getFullYear()} Madras Hardtools Agencies. Authorized YOKE Partner.</span>
+          <div className="flex gap-6">
+            <span>Designed for Durability</span>
+            <span>Safety First</span>
+          </div>
         </div>
       </div>
     </footer>
